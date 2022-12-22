@@ -5,8 +5,10 @@
     "outDir": "./lib",                        /* Redirect output structure to the directory. */
     "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "strict": true,                           /* Enable all strict type-checking options. */
+    "strictPropertyInitialization": false,    /* Enable strict checking of property initialization in classes. */
     "noImplicitAny": true,                    /* Raise error on expressions and declarations with an implied 'any' type. */
-    "esModuleInterop": true                   /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "experimentalDecorators": true            /* Enables experimental support for ES7 decorators. */
   },
   "exclude": ["node_modules", "**/*.test.ts"]
 }
