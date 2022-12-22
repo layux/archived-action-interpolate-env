@@ -8,6 +8,7 @@ export const Input =
     if (value) {
       Object.defineProperty(target, propertyKey, {
         value,
+        writable: true,
       });
     }
   };
