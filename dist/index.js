@@ -33,6 +33,7 @@ const Input = (fieldName) => (target, propertyKey) => {
     if (value) {
         Object.defineProperty(target, propertyKey, {
             value,
+            writable: true,
         });
     }
 };
