@@ -30,6 +30,7 @@ exports.Input = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const Input = (fieldName) => (target, propertyKey) => {
     const value = core.getInput(fieldName);
+    core.debug(`Input: ${fieldName} = ${value}`);
     if (value) {
         Object.defineProperty(target, propertyKey, {
             value,

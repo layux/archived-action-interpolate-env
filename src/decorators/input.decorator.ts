@@ -5,6 +5,8 @@ export const Input =
   (target, propertyKey) => {
     const value = core.getInput(fieldName);
 
+    core.debug(`Input: ${fieldName} = ${value}`);
+
     if (value) {
       Object.defineProperty(target, propertyKey, {
         value,
