@@ -1,42 +1,37 @@
-import {
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Input } from '../decorators/input.decorator';
 
 export class InterpolateActionInputDto {
+  @Input('env_file')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  envFile: string;
+  envFile = '';
 
+  @Input('env_file_as_fallback')
   @IsOptional()
   @IsBoolean()
-  envFileAsFallback: boolean;
+  envFileAsFallback = false;
 
+  @Input('env_variable_prefix')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  envVariablePrefix: string;
+  envVariablePrefix = '';
 
+  @Input('env_variable_suffix')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  envVariableSuffix: string;
+  envVariableSuffix = '';
 
+  @Input('replace_file_extensions')
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  replaceFileExtensions: Array<string>;
+  replaceFileExtensions = new Array<string>();
 
+  @Input('replace_file_exclude_paths')
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  replaceFileExcludePaths: Array<string>;
+  replaceFileExcludePaths = new Array<string>();
 }
