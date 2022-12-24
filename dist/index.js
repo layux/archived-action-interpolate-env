@@ -82,10 +82,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Input = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const Input = (fieldName, required = false) => (target, propertyKey) => {
-    const inputValue = core.getInput(fieldName, { required });
-    core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
+    // Read action:inputs metadata from class
     const inputs = Reflect.getMetadata('action:inputs', target) || {};
-    Reflect.metadata('action:inputs', Object.assign(Object.assign({}, inputs), { [propertyKey]: inputValue }));
+    // Add input to metadata and set metadata on class only for this call
+    Reflect.defineMetadata('action:inputs', Object.assign(Object.assign({}, inputs), { [propertyKey]: core.getInput(fieldName, { required }) }), target);
 };
 exports.Input = Input;
 
