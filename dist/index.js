@@ -6,28 +6,44 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ActionInput = void 0;
-const core_1 = __importDefault(__nccwpck_require__(2186));
+const core = __importStar(__nccwpck_require__(2186));
 const environment_util_1 = __nccwpck_require__(2805);
 const ActionInput = () => (target) => {
     // Process input environment variables
     const inputOptions = (0, environment_util_1.getInputEnvironmentVariables)();
     const options = {};
-    core_1.default.debug(`Input options: ${JSON.stringify(inputOptions)}`);
+    core.debug(`Input options: ${JSON.stringify(inputOptions)}`);
     Object.keys(inputOptions).reduce((acc, key) => {
         const keyCamelCase = key.replace(/^INPUT_/, '').replace(/_([a-z])/g, (g) => g[1].toUpperCase());
-        core_1.default.debug(`Converted input key ${key} to ${keyCamelCase} with value ${inputOptions[key]}`);
+        core.debug(`Converted input key ${key} to ${keyCamelCase} with value ${inputOptions[key]}`);
         options[keyCamelCase] = inputOptions[key];
         return acc;
     });
     // Construct the instance with the options
     for (const inputKey of Object.keys(options)) {
         target.prototype[inputKey] = options[inputKey];
-        core_1.default.debug(`Prototype ${inputKey} set to ${options[inputKey]}`);
+        core.debug(`Prototype ${inputKey} set to ${options[inputKey]}`);
     }
 };
 exports.ActionInput = ActionInput;

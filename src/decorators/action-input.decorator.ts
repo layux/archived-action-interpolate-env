@@ -1,4 +1,4 @@
-import core from '@actions/core';
+import * as core from '@actions/core';
 import { getInputEnvironmentVariables } from '../utils/environment.util';
 
 export const ActionInput = (): ClassDecorator => (target) => {
