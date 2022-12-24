@@ -1,20 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core';
 
 export const Input =
   (fieldName: string, required = false): PropertyDecorator =>
   (target, propertyKey) => {
     const inputValue = core.getInput(fieldName, { required });
+    const privatePropertyKey = Symbol();
 
-    core.debug(`Input -> ${fieldName} = ${inputValue}`);
+    core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
 
-    if (inputValue) {
-      core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
-
-      const privatePropertyKey = Symbol();
-
-      Reflect.defineProperty(target, propertyKey, {
-        get: () => Reflect.get(target, privatePropertyKey),
-        set: () => Reflect.set(target, privatePropertyKey, inputValue),
-      });
-    }
+    Reflect.defineProperty(target, propertyKey, {
+      get(this: any) {
+        return this[privatePropertyKey];
+      },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      set(this: any, _newValue: any) {
+        this[privatePropertyKey] = inputValue;
+      },
+    });
   };

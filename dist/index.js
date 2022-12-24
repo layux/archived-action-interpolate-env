@@ -27,18 +27,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Input = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const core = __importStar(__nccwpck_require__(2186));
 const Input = (fieldName, required = false) => (target, propertyKey) => {
     const inputValue = core.getInput(fieldName, { required });
-    core.debug(`Input -> ${fieldName} = ${inputValue}`);
-    if (inputValue) {
-        core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
-        const privatePropertyKey = Symbol();
-        Reflect.defineProperty(target, propertyKey, {
-            get: () => Reflect.get(target, privatePropertyKey),
-            set: () => Reflect.set(target, privatePropertyKey, inputValue),
-        });
-    }
+    const privatePropertyKey = Symbol();
+    core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
+    Reflect.defineProperty(target, propertyKey, {
+        get() {
+            return this[privatePropertyKey];
+        },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        set(_newValue) {
+            this[privatePropertyKey] = inputValue;
+        },
+    });
 };
 exports.Input = Input;
 
@@ -93,13 +96,13 @@ __decorate([
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariableSuffix", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_variable_delimiter'),
+    (0, input_decorator_1.Input)('replace_file_extensions'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExtensions", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('replace_file_extensions'),
+    (0, input_decorator_1.Input)('replace_file_exclude_paths'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)

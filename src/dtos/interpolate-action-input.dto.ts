@@ -25,12 +25,12 @@ export class InterpolateActionInputDto {
   @IsNotEmpty()
   envVariableSuffix: string;
 
-  @Input('env_variable_delimiter')
+  @Input('replace_file_extensions')
   @IsOptional()
   @IsArray()
   replaceFileExtensions: Array<string>;
 
-  @Input('replace_file_extensions')
+  @Input('replace_file_exclude_paths')
   @IsOptional()
   @IsArray()
   replaceFileExcludePaths: Array<string>;
