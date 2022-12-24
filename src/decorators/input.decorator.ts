@@ -8,7 +8,13 @@ export const Input =
     core.debug(`Input: ${fieldName} = ${value}`);
 
     if (value) {
-      core.debug(`Setting input: ${String(propertyKey)} = ${value} to target object -> ${target}`);
+      core.debug(
+        `Setting input: ${String(propertyKey)} = ${value} to target object -> ${JSON.stringify(
+          target,
+          null,
+          2
+        )}`
+      );
 
       Object.defineProperty(target, propertyKey, {
         value,
