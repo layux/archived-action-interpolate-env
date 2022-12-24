@@ -1,7 +1,7 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 8503:
+/***/ 365:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -26,27 +26,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ActionInput = void 0;
+exports.Input = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const environment_util_1 = __nccwpck_require__(2805);
-const ActionInput = () => (target) => {
-    // Process input environment variables
-    const inputOptions = (0, environment_util_1.getInputEnvironmentVariables)();
-    const options = {};
-    core.debug(`Input options: ${JSON.stringify(inputOptions)}`);
-    Object.keys(inputOptions).reduce((acc, key) => {
-        const keyCamelCase = key.replace(/^INPUT_/, '').replace(/_([a-z])/g, (g) => g[1].toUpperCase());
-        core.debug(`Converted input key ${key} to ${keyCamelCase} with value ${inputOptions[key]}`);
-        options[keyCamelCase] = inputOptions[key];
-        return acc;
-    });
-    // Construct the instance with the options
-    for (const inputKey of Object.keys(options)) {
-        target.prototype[inputKey] = options[inputKey];
-        core.debug(`Prototype ${inputKey} set to ${options[inputKey]}`);
+const Input = (fieldName, required = false) => (target, propertyKey) => {
+    const value = core.getInput(fieldName, { required });
+    core.debug(`Input -> ${fieldName} = ${value}`);
+    if (value) {
+        core.debug(`Setting input: ${String(propertyKey)} = ${value} to target`);
+        const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+        if (descriptor) {
+            core.debug(`Descriptor found for ${String(propertyKey)}`);
+            descriptor.value = value;
+            Object.defineProperty(target, propertyKey, descriptor);
+        }
     }
 };
-exports.ActionInput = ActionInput;
+exports.Input = Input;
 
 
 /***/ }),
@@ -68,45 +63,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InterpolateActionInputDto = void 0;
 const class_validator_1 = __nccwpck_require__(4803);
-const action_input_decorator_1 = __nccwpck_require__(8503);
-let InterpolateActionInputDto = class InterpolateActionInputDto {
-};
+const input_decorator_1 = __nccwpck_require__(365);
+class InterpolateActionInputDto {
+}
 __decorate([
+    (0, input_decorator_1.Input)('env_file'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envFile", void 0);
 __decorate([
+    (0, input_decorator_1.Input)('env_file_as_fallback'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
 ], InterpolateActionInputDto.prototype, "envFileAsFallback", void 0);
 __decorate([
+    (0, input_decorator_1.Input)('env_variable_prefix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariablePrefix", void 0);
 __decorate([
+    (0, input_decorator_1.Input)('env_variable_suffix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariableSuffix", void 0);
 __decorate([
+    (0, input_decorator_1.Input)('env_variable_delimiter'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExtensions", void 0);
 __decorate([
+    (0, input_decorator_1.Input)('replace_file_extensions'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExcludePaths", void 0);
-InterpolateActionInputDto = __decorate([
-    (0, action_input_decorator_1.ActionInput)()
-], InterpolateActionInputDto);
 exports.InterpolateActionInputDto = InterpolateActionInputDto;
 
 
@@ -144,27 +142,6 @@ function run() {
     });
 }
 run();
-
-
-/***/ }),
-
-/***/ 2805:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getInputEnvironmentVariables = void 0;
-const getInputEnvironmentVariables = () => {
-    const env = {};
-    for (const key in process.env) {
-        if (key.startsWith('INPUT_')) {
-            env[key] = process.env[key] || '';
-        }
-    }
-    return env;
-};
-exports.getInputEnvironmentVariables = getInputEnvironmentVariables;
 
 
 /***/ }),
