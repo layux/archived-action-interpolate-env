@@ -32,6 +32,7 @@ const Input = (fieldName) => (target, propertyKey) => {
     const value = core.getInput(fieldName);
     core.debug(`Input: ${fieldName} = ${value}`);
     if (value) {
+        core.debug(`Setting input: ${String(propertyKey)} = ${value} to target object -> ${target}`);
         Object.defineProperty(target, propertyKey, {
             value,
             writable: true,
