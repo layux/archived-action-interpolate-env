@@ -2,7 +2,7 @@ import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-vali
 import { ActionInput } from '../decorators/action-input.decorator';
 import { Input } from '../decorators/input.decorator';
 
-@ActionInput()
+// @ActionInput()
 export class InterpolateActionInputDto {
   @Input('env_file')
   @IsOptional()
