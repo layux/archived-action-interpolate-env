@@ -30,15 +30,12 @@ exports.Input = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const Input = (fieldName) => (target, propertyKey) => {
     const value = core.getInput(fieldName);
-    core.debug(`Input: ${fieldName} = ${value}`);
-    core.debug(`target: ${JSON.stringify(target, null, 2)}`);
-    core.debug(`this: ${JSON.stringify(this, null, 2)}`);
+    core.debug(`Input -> ${fieldName} = ${value}`);
+    core.debug(`target -> [${typeof target}] ${JSON.stringify(target, null, 2)}`);
+    core.debug(`this -> [${typeof this}] ${JSON.stringify(this, null, 2)}`);
     if (value) {
         core.debug(`Setting input: ${String(propertyKey)} = ${value} to target`);
-        Object.defineProperty(target, propertyKey, {
-            value,
-            writable: true,
-        });
+        // Set value to instance for propertyKey
     }
 };
 exports.Input = Input;
