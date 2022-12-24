@@ -10,12 +10,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ActionInput = void 0;
 __nccwpck_require__(9977);
 const ActionInput = () => (target) => {
-    // Get all inputs metadata from class and assign properties to instance on construction
+    // Get all inputs metadata from class
     const inputs = Reflect.getMetadata('action:inputs', target) || {};
     // We need to use a proxy to intercept the constructor and assign the inputs to the instance
     const proxy = new Proxy(target, {
         construct: (construct, args) => {
-            const instance = construct(...args);
+            // Ensure the constructor is called with the correct arguments
+            // Since we can't call new target(...args) we need to use the Reflect API
+            const instance = Reflect.construct(construct, args);
             Object.assign(instance, inputs);
             return instance;
         },
