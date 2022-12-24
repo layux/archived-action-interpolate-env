@@ -3,20 +3,18 @@ import * as core from '@actions/core';
 export const Input =
   (fieldName: string, required = false): PropertyDecorator =>
   (target, propertyKey) => {
-    const value = core.getInput(fieldName, { required });
+    const inputValue = core.getInput(fieldName, { required });
 
-    core.debug(`Input -> ${fieldName} = ${value}`);
+    core.debug(`Input -> ${fieldName} = ${inputValue}`);
 
-    if (value) {
-      core.debug(`Setting input: ${String(propertyKey)} = ${value} to target`);
+    if (inputValue) {
+      core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
 
-      const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+      const privatePropertyKey = Symbol();
 
-      if (descriptor) {
-        core.debug(`Descriptor found for ${String(propertyKey)}`);
-
-        descriptor.value = value;
-        Object.defineProperty(target, propertyKey, descriptor);
-      }
+      Reflect.defineProperty(target, propertyKey, {
+        get: () => Reflect.get(target, privatePropertyKey),
+        set: () => Reflect.set(target, privatePropertyKey, inputValue),
+      });
     }
   };
