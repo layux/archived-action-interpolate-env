@@ -1,44 +1,36 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 365:
+/***/ 8503:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Input = void 0;
-const core = __importStar(__nccwpck_require__(2186));
-const Input = (fieldName) => (target, propertyKey) => {
-    const value = core.getInput(fieldName);
-    core.debug(`Input -> ${fieldName} = ${value}`);
-    core.debug(`target -> [${target.constructor.name}] ${JSON.stringify(target, null, 2)}`);
-    core.debug(`this -> [${typeof this} ${JSON.stringify(this, null, 2)}`);
-    if (value) {
-        core.debug(`Setting input: ${String(propertyKey)} = ${value} to target`);
-        // Set value to instance for propertyKey
+exports.ActionInput = void 0;
+const core_1 = __importDefault(__nccwpck_require__(2186));
+const environment_util_1 = __nccwpck_require__(2805);
+const ActionInput = () => (target) => {
+    // Process input environment variables
+    const inputOptions = (0, environment_util_1.getInputEnvironmentVariables)();
+    const options = {};
+    core_1.default.debug(`Input options: ${JSON.stringify(inputOptions)}`);
+    Object.keys(inputOptions).reduce((acc, key) => {
+        const keyCamelCase = key.replace(/^INPUT_/, '').replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+        core_1.default.debug(`Converted input key ${key} to ${keyCamelCase} with value ${inputOptions[key]}`);
+        options[keyCamelCase] = inputOptions[key];
+        return acc;
+    });
+    // Construct the instance with the options
+    for (const inputKey of Object.keys(options)) {
+        target.prototype[inputKey] = options[inputKey];
+        core_1.default.debug(`Prototype ${inputKey} set to ${options[inputKey]}`);
     }
 };
-exports.Input = Input;
+exports.ActionInput = ActionInput;
 
 
 /***/ }),
@@ -60,56 +52,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InterpolateActionInputDto = void 0;
 const class_validator_1 = __nccwpck_require__(4803);
-const input_decorator_1 = __nccwpck_require__(365);
-class InterpolateActionInputDto {
-    constructor() {
-        this.envFile = '';
-        this.envFileAsFallback = false;
-        this.envVariablePrefix = '';
-        this.envVariableSuffix = '';
-        this.replaceFileExtensions = new Array();
-        this.replaceFileExcludePaths = new Array();
-    }
-}
+const action_input_decorator_1 = __nccwpck_require__(8503);
+let InterpolateActionInputDto = class InterpolateActionInputDto {
+};
 __decorate([
-    (0, input_decorator_1.Input)('env_file'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envFile", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_file_as_fallback'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Boolean)
 ], InterpolateActionInputDto.prototype, "envFileAsFallback", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_variable_prefix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariablePrefix", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_variable_suffix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariableSuffix", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('replace_file_extensions'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExtensions", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('replace_file_exclude_paths'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Object)
+    __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExcludePaths", void 0);
+InterpolateActionInputDto = __decorate([
+    (0, action_input_decorator_1.ActionInput)()
+], InterpolateActionInputDto);
 exports.InterpolateActionInputDto = InterpolateActionInputDto;
 
 
@@ -147,6 +128,27 @@ function run() {
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 2805:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getInputEnvironmentVariables = void 0;
+const getInputEnvironmentVariables = () => {
+    const env = {};
+    for (const key in process.env) {
+        if (key.startsWith('INPUT_')) {
+            env[key] = process.env[key] || '';
+        }
+    }
+    return env;
+};
+exports.getInputEnvironmentVariables = getInputEnvironmentVariables;
 
 
 /***/ }),
