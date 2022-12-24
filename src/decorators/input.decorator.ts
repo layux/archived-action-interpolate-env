@@ -15,12 +15,11 @@ export const Input =
       target
     );
 
-    core.debug(JSON.stringify(this));
+    core.debug(`this -> [${typeof this}] ${JSON.stringify(this)}`);
+    core.debug(`target -> [${target.constructor.name}] ${JSON.stringify(target)}`);
+    core.debug(`inputs -> [${typeof inputs}] ${JSON.stringify(inputs)}`);
 
-    if (this !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      Object.assign(this!!, { [propertyKey]: input });
-    }
+    Object.assign(target, { [propertyKey]: input });
 
     core.debug(`Input ${fieldName} has value: ${input}, added to constructor inputs`);
   };
