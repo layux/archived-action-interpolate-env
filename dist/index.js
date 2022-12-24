@@ -29,16 +29,15 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Input = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const Input = (fieldName, required = false) => (target, propertyKey) => {
-    const value = core.getInput(fieldName, { required });
-    core.debug(`Input -> ${fieldName} = ${value}`);
-    if (value) {
-        core.debug(`Setting input: ${String(propertyKey)} = ${value} to target`);
-        const descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-        if (descriptor) {
-            core.debug(`Descriptor found for ${String(propertyKey)}`);
-            descriptor.value = value;
-            Object.defineProperty(target, propertyKey, descriptor);
-        }
+    const inputValue = core.getInput(fieldName, { required });
+    core.debug(`Input -> ${fieldName} = ${inputValue}`);
+    if (inputValue) {
+        core.debug(`Setting input: ${String(propertyKey)} = ${inputValue} to target`);
+        const privatePropertyKey = Symbol();
+        Reflect.defineProperty(target, propertyKey, {
+            get: () => Reflect.get(target, privatePropertyKey),
+            set: () => Reflect.set(target, privatePropertyKey, inputValue),
+        });
     }
 };
 exports.Input = Input;
