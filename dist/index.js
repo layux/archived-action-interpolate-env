@@ -8,20 +8,21 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ActionInput = void 0;
-/* eslint-disable @typescript-eslint/no-explicit-any */
 __nccwpck_require__(9977);
 const ActionInput = () => (target) => {
     // Get all inputs metadata from class and assign properties to instance on construction
     const inputs = Reflect.getMetadata('action:inputs', target) || {};
-    const f = (...args) => {
-        const instance = target(...args);
-        for (const key of Object.keys(inputs)) {
-            instance[key] = inputs[key];
-        }
-        return instance;
-    };
-    f.prototype = target.prototype;
-    return f;
+    // We need to use a proxy to intercept the constructor and assign the inputs to the instance
+    const proxy = new Proxy(target, {
+        construct: (construct, args) => {
+            const instance = construct(...args);
+            Object.assign(instance, inputs);
+            return instance;
+        },
+    });
+    // Set the proxy as the new target
+    Reflect.defineMetadata('action:inputs', inputs, proxy);
+    return proxy;
 };
 exports.ActionInput = ActionInput;
 

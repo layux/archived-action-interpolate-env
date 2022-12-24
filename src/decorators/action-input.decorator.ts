@@ -1,21 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata';
 
-export const ActionInput =
-  (): ClassDecorator =>
-  <TFunction extends Function>(target: TFunction): TFunction | void => {
-    // Get all inputs metadata from class and assign properties to instance on construction
-    const inputs = Reflect.getMetadata('action:inputs', target) || {};
-    const f = (...args: Array<any>): any => {
-      const instance = target(...args);
+export const ActionInput = (): ClassDecorator => (target) => {
+  // Get all inputs metadata from class and assign properties to instance on construction
+  const inputs = Reflect.getMetadata('action:inputs', target) || {};
 
-      for (const key of Object.keys(inputs)) {
-        instance[key] = inputs[key];
-      }
-
+  // We need to use a proxy to intercept the constructor and assign the inputs to the instance
+  const proxy = new Proxy(target, {
+    construct: (construct, args) => {
+      const instance = construct(...args);
+      Object.assign(instance, inputs);
       return instance;
-    };
+    },
+  });
 
-    f.prototype = target.prototype;
-    return f as any;
-  };
+  // Set the proxy as the new target
+  Reflect.defineMetadata('action:inputs', inputs, proxy);
+  return proxy;
+};
