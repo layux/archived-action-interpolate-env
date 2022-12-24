@@ -15,5 +15,12 @@ export const Input =
       target
     );
 
+    core.debug(JSON.stringify(this));
+
+    if (this !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      Object.assign(this!!, { [propertyKey]: input });
+    }
+
     core.debug(`Input ${fieldName} has value: ${input}, added to constructor inputs`);
   };
