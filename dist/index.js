@@ -114,44 +114,44 @@ const yaml_array_decorator_1 = __nccwpck_require__(7603);
 class InterpolateActionInputDto {
 }
 __decorate([
-    (0, input_decorator_1.Input)('env_file'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, input_decorator_1.Input)('env_file'),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envFile", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_file_as_fallback'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),
+    (0, input_decorator_1.Input)('env_file_as_fallback'),
     __metadata("design:type", Boolean)
 ], InterpolateActionInputDto.prototype, "envFileAsFallback", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_variable_prefix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, input_decorator_1.Input)('env_variable_prefix'),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariablePrefix", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('env_variable_suffix'),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, input_decorator_1.Input)('env_variable_suffix'),
     __metadata("design:type", String)
 ], InterpolateActionInputDto.prototype, "envVariableSuffix", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('replace_file_extensions'),
-    (0, yaml_array_decorator_1.YamlArray)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
+    (0, yaml_array_decorator_1.YamlArray)(),
+    (0, input_decorator_1.Input)('replace_file_extensions'),
     __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExtensions", void 0);
 __decorate([
-    (0, input_decorator_1.Input)('replace_file_exclude_paths'),
-    (0, yaml_array_decorator_1.YamlArray)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
+    (0, yaml_array_decorator_1.YamlArray)(),
+    (0, input_decorator_1.Input)('replace_file_exclude_paths'),
     __metadata("design:type", Array)
 ], InterpolateActionInputDto.prototype, "replaceFileExcludePaths", void 0);
 exports.InterpolateActionInputDto = InterpolateActionInputDto;

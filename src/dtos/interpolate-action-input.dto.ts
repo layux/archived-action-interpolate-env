@@ -5,38 +5,38 @@ import { YamlArray } from '../decorators/yaml-array.decorator';
 
 // @ActionInput()
 export class InterpolateActionInputDto {
-  @Input('env_file')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Input('env_file')
   envFile: string;
 
-  @Input('env_file_as_fallback')
   @IsOptional()
   @IsBoolean()
+  @Input('env_file_as_fallback')
   envFileAsFallback: boolean;
 
-  @Input('env_variable_prefix')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Input('env_variable_prefix')
   envVariablePrefix: string;
 
-  @Input('env_variable_suffix')
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Input('env_variable_suffix')
   envVariableSuffix: string;
 
-  @Input('replace_file_extensions')
-  @YamlArray()
   @IsOptional()
   @IsArray()
+  @YamlArray()
+  @Input('replace_file_extensions')
   replaceFileExtensions: Array<string>;
 
-  @Input('replace_file_exclude_paths')
-  @YamlArray()
   @IsOptional()
   @IsArray()
+  @YamlArray()
+  @Input('replace_file_exclude_paths')
   replaceFileExcludePaths: Array<string>;
 }
