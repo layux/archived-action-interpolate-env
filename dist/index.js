@@ -152,6 +152,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const input = new interpolate_action_input_dto_1.InterpolateActionInputDto();
         core.info(`input: ${JSON.stringify(input)}`);
+        core.debug(`env file: ${input.envFile}`);
     });
 }
 run();
