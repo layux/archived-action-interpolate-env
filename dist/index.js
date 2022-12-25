@@ -70,9 +70,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.YamlArray = void 0;
+const core = __importStar(__nccwpck_require__(2186));
 const yaml = __importStar(__nccwpck_require__(5065));
 const YamlArray = () => (target, propertyKey) => {
     const currentValue = Reflect.get(target, propertyKey);
+    core.debug(`YamlArray: ${String(propertyKey)} = ${currentValue} (${typeof currentValue})`);
     if (currentValue && typeof currentValue === 'string') {
         Reflect.deleteProperty(target, propertyKey);
         Reflect.defineProperty(target, propertyKey, {
