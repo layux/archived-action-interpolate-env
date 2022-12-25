@@ -3,9 +3,16 @@ import { InterpolateActionInputDto } from './dtos/interpolate-action-input.dto';
 
 async function run(): Promise<void> {
   const input = new InterpolateActionInputDto();
-  core.info(`input: ${JSON.stringify(input)}`);
+  const inputValues = {
+    envFile: input.envFile,
+    envFileAsFallback: input.envFileAsFallback,
+    envVariablePrefix: input.envVariablePrefix,
+    envVariableSuffix: input.envVariableSuffix,
+    replaceFileExtensions: input.replaceFileExtensions,
+    replaceFileExcludePaths: input.replaceFileExcludePaths,
+  };
 
-  core.debug(`env file: ${input.envFile}`);
+  core.info(`inputValues: ${JSON.stringify(inputValues)}`);
 }
 
 run();

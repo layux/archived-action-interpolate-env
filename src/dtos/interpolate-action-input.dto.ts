@@ -1,6 +1,7 @@
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 // import { ActionInput } from '../decorators/action-input.decorator';
 import { Input } from '../decorators/input.decorator';
+import { YamlArray } from '../decorators/yaml-array.decorator';
 
 // @ActionInput()
 export class InterpolateActionInputDto {
@@ -28,11 +29,13 @@ export class InterpolateActionInputDto {
   envVariableSuffix: string;
 
   @Input('replace_file_extensions')
+  @YamlArray()
   @IsOptional()
   @IsArray()
   replaceFileExtensions: Array<string>;
 
   @Input('replace_file_exclude_paths')
+  @YamlArray()
   @IsOptional()
   @IsArray()
   replaceFileExcludePaths: Array<string>;

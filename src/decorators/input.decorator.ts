@@ -13,7 +13,4 @@ export const Input =
       enumerable: true,
       configurable: true,
     });
-
-    core.debug(`Input '${fieldName}' has value: '${input}'`);
-    core.debug(`target -> [${target.constructor.name}] ${JSON.stringify(target)}`);
   };
